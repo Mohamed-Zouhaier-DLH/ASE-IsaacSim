@@ -1,0 +1,80 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# PyTorch / ML
+*.pth
+*.pt
+*.onnx
+*.pkl
+*.npy
+*.npz
+checkpoints/
+runs/
+tensorboard/
+
+# Isaac Sim
+*.usd
+*.usda
+*.usdc
+*.usdz
+omni.log
+*_physics_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Temporary files
+*.tmp
+*.bak
+*.log
+tmp/
+temp/
+
+# Data files (large)
+ase/data/models/
+ase/data/motions/*.npy
+reference_data/
+
+# Build artifacts
+*.o
+*.a
+*.dylib
+*.dll
+*.exe
