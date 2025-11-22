@@ -24,7 +24,6 @@ MANIFEST
 # Virtual environments
 venv/
 ENV/
-env/
 .venv
 
 # PyTorch / ML
