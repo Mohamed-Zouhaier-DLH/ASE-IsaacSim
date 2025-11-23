@@ -26,7 +26,8 @@ venv/
 ENV/
 .venv
 
-# PyTorch / ML
+# PyTorch / ML (training outputs)
+# Note: Pre-trained models in ase/data/models/ are tracked
 *.pth
 *.pt
 *.onnx
@@ -36,6 +37,12 @@ ENV/
 checkpoints/
 runs/
 tensorboard/
+output/
+
+# But allow pre-trained models and motion data
+!ase/data/models/*.pth
+!ase/data/motions/*.npy
+!ase/data/motions/**/*.npy
 
 # Isaac Sim
 *.usd
@@ -66,9 +73,7 @@ htmlcov/
 tmp/
 temp/
 
-# Data files (large)
-ase/data/models/
-ase/data/motions/*.npy
+# Reference data from validation
 reference_data/
 
 # Build artifacts

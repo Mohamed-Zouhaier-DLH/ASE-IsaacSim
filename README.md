@@ -15,20 +15,25 @@ ASE is a framework for learning diverse, physics-based character skills through 
 
 ## Status
 
-🚧 **This is a migration infrastructure project** 🚧
+✅ **Complete ASE Framework with Isaac Sim Migration** ✅
 
-This repository currently contains:
-- ✅ Comprehensive migration guides and technical documentation
-- ✅ Compatibility wrapper for maintaining RLGPUEnv interface
-- ✅ Base environment classes for Isaac Sim implementation
-- ✅ Asset conversion utilities (MJCF → USD)
-- ✅ Validation and testing utilities
-- ✅ Example implementations and scripts
-
-**Not yet included:**
-- ❌ Original ASE codebase (from nv-tlabs/ASE)
-- ❌ Motion capture data and pretrained models
-- ❌ Complete task implementations for all variants
+This repository now contains:
+- ✅ **Complete original ASE codebase** (from nv-tlabs/ASE)
+  - All 9 task implementations (HumanoidAMP, HumanoidReach, HumanoidStrike, HumanoidHeading, HumanoidLocation, HumanoidPerturb, HumanoidAMPGetup, HumanoidViewMotion, and base Humanoid)
+  - Full learning infrastructure (AMP, ASE, HRL agents)
+  - Complete poselib for motion retargeting
+- ✅ **Motion capture data and pretrained models**
+  - Motion clips (.npy files) for walking, running, jogging
+  - Reallusion sword & shield motion dataset
+  - Pre-trained ASE low-level controller (85MB)
+  - Pre-trained high-level controllers for all tasks (19MB each)
+- ✅ **Isaac Sim migration infrastructure**
+  - Comprehensive migration guides and technical documentation
+  - Compatibility wrapper for maintaining RLGPUEnv interface
+  - Base environment classes for Isaac Sim implementation
+  - Asset conversion utilities (MJCF → USD)
+  - Validation and testing utilities
+  - Example Isaac Sim implementations
 
 ## Documentation
 
@@ -66,9 +71,79 @@ cd ASE-IsaacSim
 pip install -r requirements.txt
 ```
 
+## Using the Original Isaac Gym Implementation
+
+The complete original ASE codebase is included and can be used directly with Isaac Gym:
+
+### Training with Isaac Gym
+
+Train an ASE model to imitate motion clips:
+
+```bash
+# Pre-training ASE low-level controller
+python ase/run.py --task HumanoidAMPGetup \
+    --cfg_env ase/data/cfg/humanoid_ase_sword_shield_getup.yaml \
+    --cfg_train ase/data/cfg/train/rlg/ase_humanoid.yaml \
+    --motion_file ase/data/motions/reallusion_sword_shield/dataset_reallusion_sword_shield.yaml \
+    --headless
+
+# Task-training with high-level controller
+python ase/run.py --task HumanoidHeading \
+    --cfg_env ase/data/cfg/humanoid_sword_shield_heading.yaml \
+    --cfg_train ase/data/cfg/train/rlg/hrl_humanoid.yaml \
+    --motion_file ase/data/motions/reallusion_sword_shield/RL_Avatar_Idle_Ready_Motion.npy \
+    --llc_checkpoint ase/data/models/ase_llc_reallusion_sword_shield.pth \
+    --headless
+```
+
+### Testing Pre-Trained Models
+
+Test the provided pre-trained models:
+
+```bash
+# Test ASE low-level controller
+python ase/run.py --test --task HumanoidAMPGetup --num_envs 16 \
+    --cfg_env ase/data/cfg/humanoid_ase_sword_shield_getup.yaml \
+    --cfg_train ase/data/cfg/train/rlg/ase_humanoid.yaml \
+    --motion_file ase/data/motions/reallusion_sword_shield/dataset_reallusion_sword_shield.yaml \
+    --checkpoint ase/data/models/ase_llc_reallusion_sword_shield.pth
+
+# Test high-level heading controller
+python ase/run.py --test --task HumanoidHeading --num_envs 16 \
+    --cfg_env ase/data/cfg/humanoid_sword_shield_heading.yaml \
+    --cfg_train ase/data/cfg/train/rlg/hrl_humanoid.yaml \
+    --motion_file ase/data/motions/reallusion_sword_shield/RL_Avatar_Idle_Ready_Motion.npy \
+    --llc_checkpoint ase/data/models/ase_llc_reallusion_sword_shield.pth \
+    --checkpoint ase/data/models/ase_hlc_heading_reallusion_sword_shield.pth
+```
+
+### Visualizing Motion Data
+
+View motion clips:
+
+```bash
+python ase/run.py --test --task HumanoidViewMotion --num_envs 2 \
+    --cfg_env ase/data/cfg/humanoid_sword_shield.yaml \
+    --cfg_train ase/data/cfg/train/rlg/amp_humanoid.yaml \
+    --motion_file ase/data/motions/reallusion_sword_shield/RL_Avatar_Atk_2xCombo01_Motion.npy
+```
+
+### Available Tasks
+
+- **HumanoidAMP** - Adversarial Motion Priors
+- **HumanoidAMPGetup** - AMP with get-up from ground
+- **HumanoidReach** - Reach to target locations
+- **HumanoidStrike** - Strike targets
+- **HumanoidHeading** - Navigate towards headings
+- **HumanoidLocation** - Navigate to locations
+- **HumanoidPerturb** - Robustness to perturbations
+- **HumanoidViewMotion** - Visualize motion clips
+
+## Migrating to Isaac Sim
+
 ### Asset Conversion
 
-Convert MJCF humanoid models to USD format:
+Convert MJCF humanoid models to USD format for Isaac Sim:
 
 ```bash
 # Convert a single asset
@@ -80,10 +155,10 @@ python examples/convert_assets.py \
 python examples/convert_assets.py --batch
 ```
 
-### Running Environments
+### Running Isaac Sim Environments
 
 ```bash
-# Run a simple environment demo
+# Run Isaac Sim environment demo
 python examples/run_isaac_sim_env.py \
     --task HumanoidAMP \
     --num-envs 4 \
@@ -94,7 +169,7 @@ python examples/run_isaac_sim_env.py \
 ### Validation
 
 ```bash
-# Validate environment implementation
+# Validate Isaac Sim implementation
 python examples/validate_environment.py \
     --mode suite \
     --env isaac_sim \

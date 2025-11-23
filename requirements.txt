@@ -1,39 +1,42 @@
-# ASE Isaac Sim Migration Requirements
+# ASE Requirements - Supports both Isaac Gym and Isaac Sim
 #
-# Note: Isaac Sim must be installed separately from NVIDIA Omniverse
-# This file lists the Python dependencies needed for the ASE framework
-# itself, assuming Isaac Sim is already installed.
+# This file lists dependencies for the complete ASE framework including:
+# - Original Isaac Gym implementation
+# - Isaac Sim migration implementation
+# - Training and evaluation utilities
 
 # Core dependencies
-torch>=1.13.0
-numpy>=1.23.0
+torch>=1.8.1
+numpy>=1.21.1
 pyyaml>=6.0
 
 # RL training
-rl-games>=1.6.0
+rl-games>=1.1.4
 tensorboard>=2.11.0
 
 # Utilities
 tqdm>=4.64.0
 matplotlib>=3.6.0
+termcolor>=1.1.0
 
 # Development and testing
 pytest>=7.2.0
 pytest-cov>=4.0.0
 
-# Isaac Sim dependencies (typically provided by Isaac Sim installation)
-# These are listed for reference but may not be pip-installable
-# - omni.isaac.kit
-# - omni.isaac.core
-# - omni.isaac.gym
-# - pxr (USD Python bindings)
+# Optional: for poselib and motion retargeting
+# lxml>=4.9.0  # For XML/MJCF parsing
 
-# Optional: for asset conversion
-# lxml>=4.9.0  # For XML parsing (MJCF)
+# Simulator-specific dependencies (install as needed):
+#
+# For Isaac Gym (original implementation):
+# - Install Isaac Gym from https://developer.nvidia.com/isaac-gym
+# - Follow Isaac Gym installation instructions
+#
+# For Isaac Sim (migration target):
+# - Install Isaac Sim from NVIDIA Omniverse
+# - Activate Isaac Sim Python environment:
+#   source ~/.local/share/ov/pkg/isaac_sim-*/setup_python_env.sh
+# - Isaac Sim provides: omni.isaac.kit, omni.isaac.core, pxr (USD)
 
-# Note: To use this requirements file:
-# 1. Install Isaac Sim from NVIDIA Omniverse
-# 2. Activate the Isaac Sim Python environment:
-#    source ~/.local/share/ov/pkg/isaac_sim-*/setup_python_env.sh
-# 3. Install dependencies:
-#    pip install -r requirements.txt
+# Installation:
+# pip install -r requirements.txt
